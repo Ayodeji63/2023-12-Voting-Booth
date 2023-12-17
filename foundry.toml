@@ -6,7 +6,11 @@ remappings = [
     '@openzeppelin/contracts=lib/openzeppelin-contracts/contracts',
     '@solmate=lib/solmate-bad',
 ]
+solc = "0.8.23"
 ffi = true
+[invariant]
+fail_on_revert = true
+
 
 [fmt]
 number_underscore = "thousands"

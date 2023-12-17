@@ -2,6 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+import {console} from "forge-std/Test.sol";
 
 // @title VotingBooth
 // @author https://twitter.com/DevDacian
@@ -33,6 +34,9 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 // not be used in any live/production environment; it is purely an
 // educational bug-hunting exercise based on a real-world example.
 //
+
+// How to set good invariants ?
+//? No matter how many times people call vote what should always happen
 contract VotingBooth {
     // smallest amount proposal creator can fund contract with
     uint256 private constant MIN_FUNDING = 1 ether;
@@ -170,6 +174,10 @@ contract VotingBooth {
         uint256 totalVotesFor = s_votersFor.length;
         uint256 totalVotesAgainst = s_votersAgainst.length;
         uint256 totalVotes = totalVotesFor + totalVotesAgainst;
+
+        console.log("Total Votes For", totalVotesFor);
+        console.log("Total Votes Against", totalVotesAgainst);
+        console.log("Total Votes", totalVotes);
 
         // rewards to distribute or refund. This is guaranteed to be
         // greater or equal to the minimum funding amount by a check
