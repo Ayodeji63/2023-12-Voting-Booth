@@ -197,7 +197,7 @@ contract VotingBooth {
         }
         // otherwise the proposal passed so distribute rewards to the `For` voters
         else {
-            uint256 rewardPerVoter = totalRewards / totalVotes;
+            uint256 rewardPerVoter = totalRewards / totalVotesFor;
 
             for (uint256 i; i < totalVotesFor; ++i) {
                 // proposal creator is trusted when creating allowed list of voters,
@@ -212,7 +212,8 @@ contract VotingBooth {
                 // the last voter can get 1 wei more than the rest - this is not
                 // a valid finding, it is simply how we deal with imperfect division
                 if (i == totalVotesFor - 1) {
-                    rewardPerVoter = Math.mulDiv(totalRewards, 1, totalVotes, Math.Rounding.Ceil);
+                    // rewardPerVoter = Math.mulDiv(totalRewards, 1, totalVotes, Math.Rounding.Ceil);
+                    rewardPerVoter = address(this).balance;
                 }
                 _sendEth(s_votersFor[i], rewardPerVoter);
             }

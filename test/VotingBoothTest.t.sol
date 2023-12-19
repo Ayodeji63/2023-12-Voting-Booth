@@ -2,7 +2,7 @@
 pragma solidity ^0.8.23;
 
 import {VotingBooth} from "../src/VotingBooth.sol";
-import {Test} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {_CheatCodes} from "./mocks/CheatCodes.t.sol";
 import {StdInvariant} from "forge-std/StdInvariant.sol";
 
@@ -31,6 +31,12 @@ contract VotingBoothTest is StdInvariant, Test {
 
         // setup contract to be tested
         booth = new VotingBooth{value: ETH_REWARD}(voters);
+
+        targetContract(address(booth));
+
+        for (uint256 i = 0; i < voters.length; i++) {
+            targetSender(voters[i]);
+        }
 
         // verify setup
         //
@@ -90,14 +96,15 @@ contract VotingBoothTest is StdInvariant, Test {
         if (booth.isActive()) {
             assert(address(booth).balance == ETH_REWARD);
         } else {
+            console.log("Voting Booth Balance: ", address(booth).balance);
             assert(address(booth).balance == 0);
         }
     }
 
-    function testPwned() public {
-        string[] memory cmds = new string[](2);
-        cmds[0] = "touch";
-        cmds[1] = string.concat("youve-been-pwned-remember-to-turn-off-ffi!");
-        cheatCodes.ffi(cmds);
-    }
+    // function testPwned() public {
+    //     string[] memory cmds = new string[](2);
+    //     cmds[0] = "touch";
+    //     cmds[1] = string.concat("youve-been-pwned-remember-to-turn-off-ffi!");
+    //     cheatCodes.ffi(cmds);
+    // }
 }
