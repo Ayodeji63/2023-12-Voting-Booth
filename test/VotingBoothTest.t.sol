@@ -4,8 +4,9 @@ pragma solidity ^0.8.23;
 import {VotingBooth} from "../src/VotingBooth.sol";
 import {Test} from "forge-std/Test.sol";
 import {_CheatCodes} from "./mocks/CheatCodes.t.sol";
+import {StdInvariant} from "forge-std/StdInvariant.sol";
 
-contract VotingBoothTest is Test {
+contract VotingBoothTest is StdInvariant, Test {
     // eth reward
     uint256 constant ETH_REWARD = 10e18;
 
@@ -83,6 +84,14 @@ contract VotingBoothTest is Test {
 
         assert(!booth.isActive());
         assert(address(this).balance >= startingAmount);
+    }
+
+    function invariant_booth_balance_must_be_correct() public view {
+        if (booth.isActive()) {
+            assert(address(booth).balance == ETH_REWARD);
+        } else {
+            assert(address(booth).balance == 0);
+        }
     }
 
     function testPwned() public {

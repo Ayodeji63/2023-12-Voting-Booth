@@ -9,7 +9,7 @@ remappings = [
 solc = "0.8.23"
 ffi = true
 [invariant]
-fail_on_revert = true
+fail_on_revert = false
 
 
 [fmt]
